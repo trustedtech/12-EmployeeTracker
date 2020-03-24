@@ -12,8 +12,8 @@ const inquiries = {
                 "Add Employee",
                 "Add Department",
                 "Add Role",
-                "Update Employee"]
-                // "Quit Application"]
+                "Update Employee",
+                "[-Exit Application-]"]
             }
     ],
 
@@ -29,21 +29,25 @@ const inquiries = {
     AddEmployee: [
         {
             type: "input",
-            name: "firstname",
+            name: "first_name",
             message: "Enter the employee's FIRST NAME: "
         },
         {
             type: "input",
-            name: "lastname",
+            name: "last_name",
             message: "Enter the employee's LAST NAME: "
-        }
-    ],
-
-    AddDepartment: [
+        },
         {
-            type: "input",
-            name: "name",
-            message: "Enter the department's NAME: "
+            type: "list",
+            name: "roles_id",
+            message: "Select the ROLE for this employee: ",
+            choices: []
+        },
+        {
+            type: "list",
+            name: "manager_id",
+            message: "Select the MANAGER for this employee: ",
+            choices: []
         }
     ],
 
@@ -51,13 +55,28 @@ const inquiries = {
         {
             type: "input",
             name: "title",
-            message: "Enter the TITLE of the role: "
+            message: "Enter the TITLE of this role: "
         },
         {
             type: "input",
             name: "salary",
-            message: "Enter the SALARY for the role: "
+            message: "Enter the SALARY for this role: "
 
+        },
+        {
+            type: "list",
+            name: "departments_id",
+            message: "Select the DEPARTMENT for this role: ",
+            choices: []
+        }
+
+    ],
+
+    AddDepartment: [
+        {
+            type: "input",
+            name: "name",
+            message: "Enter the NAME of this department: "
         }
     ]
 }
