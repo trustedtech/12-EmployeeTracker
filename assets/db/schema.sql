@@ -15,18 +15,18 @@ CREATE TABLE roles (
     salary DECIMAL(9,2) NULL,
     departments_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (departments_id) REFERENCES departments(id)
+    FOREIGN KEY (departments_id) REFERENCES departments(id) ON DELETE CASCADE
 );
 
 CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NULL,
     last_name VARCHAR(30) NULL,
-    roles_id INT NOT NULL,
+    roles_id INT NULL,
     manager_id INT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (roles_id) REFERENCES roles(id),
-    FOREIGN KEY (manager_id) REFERENCES employees(id)
+    FOREIGN KEY (roles_id) REFERENCES roles(id) ON DELETE SET NULL,
+    FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL
 );
 
 SELECT * FROM roles, employees, departments;

@@ -26,7 +26,7 @@ async function viewDepartments(tag) {
 
 async function addEmployee() {
     const rolesTable = await db.getRolesTable();
-    const employeeTable = await db.getEmployeesTable();
+    const employeesTable = await db.getEmployeesTable();
     const roleChoices = [];
     const managerChoices = [];
 
@@ -36,7 +36,7 @@ async function addEmployee() {
     });
 
     //Builds a list of managers
-    employeeTable.forEach((item, index) => {
+    employeesTable.forEach((item, index) => {
         item.name = item.first_name + " " + item.last_name;
         managerChoices[index] = { name: item.name, value: item.id }
     });
@@ -82,10 +82,106 @@ async function addDepartment() {
     await db.addDepartment(department)
         .then(() => { console.log('\n^ Department added successfully! ^\n')})
         .catch((error) => { console.log(error) })
+    ;
+}
+
+async function dropEmployee() {
+    const employeesTable = await db.getEmployeesTable();
+    const employeeChoices = [];
+
+    employeesTable.forEach((item, index) => {
+        item.name = item.first_name + " " + item.last_name;
+        employeeChoices[index] = { name: item.name, value: item.id }
+    });
+
+    inquiries.DropEmployee[0].choices = employeeChoices;
+
+    const employee = await inquirer.prompt(inquiries.DropEmployee);
+
+    if (employee.confirm) {
+        delete employee.confirm;
+        await db.dropEmployee(employee.id)
+            .then(() => { console.log('\n^ Employee dropped successfully! ^\n')})
+            .catch((error) => { console.log(error) })
+        ; 
+    }    
+    else { console.log(hr);} 
+}
+
+async function dropRole() {
+    const rolesTable = await db.getRolesTable();
+    const roleChoices = [];
+
+    rolesTable.forEach((item, index) => {
+        roleChoices[index] = { name: item.title, value: item.id }
+    });
+
+    inquiries.DropRole[0].choices = roleChoices;
+
+    const role = await inquirer.prompt(inquiries.DropRole);
+
+    if (role.confirm) {
+        delete role.confirm;
+        await db.dropRole(role.id)
+            .then(() => { console.log('\n^ Role dropped successfully! ^\n')})
+            .catch((error) => { console.log(error) })
+        ;
+    }
+    else { console.log(hr);} 
+}
+
+async function dropDepartment() {
+    const departmentsTable = await db.getDepartmentsTable();
+    const departmentChoices = [];
+
+    departmentsTable.forEach((item, index) => {
+        departmentChoices[index] = { name: item.name, value: item.id }
+    });
+
+    inquiries.DropDepartment[0].choices = departmentChoices;
+
+    const department = await inquirer.prompt(inquiries.DropDepartment);
+
+    if (department.confirm) {
+        delete department.confirm;
+        await db.dropDepartment(department.id)
+            .then(() => { console.log('\n^ Department dropped successfully! ^\n')})
+            .catch((error) => { console.log(error) })
+        ; 
+    }
+    else { console.log(hr);} 
 }
 
 async function updateEmployee() {
+    const rolesTable = await db.getRolesTable();
+    const employeesTable = await db.getEmployeesTable();
+    const roleChoices = [];
+    const employeeChoices = [];
 
+    employeesTable.forEach((item, index) => {
+        item.name = item.first_name + " " + item.last_name;
+        employeeChoices[index] = { name: item.name, value: item.id }
+    });
+
+    rolesTable.forEach((item, index) => {
+        roleChoices[index] = { name: item.title, value: item.id }
+    });
+
+    const managerChoices = [...employeeChoices];
+    managerChoices.push({ name: '[-None-]', value: null });
+
+    inquiries.UpdateEmployee[0].choices = employeeChoices;
+    inquiries.UpdateEmployee[1].choices = roleChoices;
+    inquiries.UpdateEmployee[2].choices = managerChoices;
+
+    const { id, roles_id, manager_id } = await inquirer.prompt(inquiries.UpdateEmployee);
+    const updates = { roles_id, manager_id };
+    const employeeID = { id };
+
+    await db.updateEmployee(updates, employeeID)
+        .then(() => { console.log('\n^ Employee updated successfully! ^\n')})
+        .catch((error) => { console.log(error) })
+    ; 
 }
 
 function quit() {
@@ -100,6 +196,9 @@ module.exports = {
     addEmployee,
     addRole,
     addDepartment,
+    dropEmployee,
+    dropRole,
+    dropDepartment,
     updateEmployee,
     quit
 }

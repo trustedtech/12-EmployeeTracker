@@ -41,7 +41,7 @@ class Database {
 
     //Define methods that utilize this database connection and provide functionality to the application
     getEmployeesExpanded() {
-        return this.connection.query("SELECT employees.first_name, employees.last_name, roles.title, roles.salary, departments.name FROM employees LEFT JOIN roles ON (employees.roles_id = roles.id) LEFT JOIN departments on (roles.departments_id = departments.id) ORDER BY employees.last_name");
+        return this.connection.query("SELECT employees.first_name, employees.last_name, roles.title, departments.name AS department, salary FROM employees LEFT JOIN roles ON (employees.roles_id = roles.id) LEFT JOIN departments on (roles.departments_id = departments.id) ORDER BY employees.last_name");
     }
 
     getRolesExpanded() {
@@ -72,20 +72,20 @@ class Database {
         return this.connection.query("INSERT INTO departments SET ?", department);
     }
 
-    dropEmployee() {
-        return this.connection.query("");
+    dropEmployee(employeeID) {
+        return this.connection.query("DELETE FROM employees WHERE id = ?", employeeID);
     }
 
-    dropRole() {
-        return this.connection.query("");
+    dropRole(roleID) {
+        return this.connection.query("DELETE FROM roles WHERE id = ?", roleID);
     }
 
-    dropDepartment() {
-        return this.connection.query("");
+    dropDepartment(departmentID) {
+        return this.connection.query("DELETE FROM departments WHERE id = ?", departmentID);
     }
 
-    updateEmployee() {
-        return this.connection.query("");
+    updateEmployee(updates, employeeID) {
+        return this.connection.query("UPDATE employees SET ? WHERE ?", [updates, employeeID]);
     }
 }
 

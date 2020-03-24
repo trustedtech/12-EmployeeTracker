@@ -39,6 +39,18 @@ function runOperation() {
                return run.addRole(choice)
                .then(repeat);
 
+            case "Drop Employee":
+               return run.dropEmployee(choice)
+               .then(repeat);
+
+            case "Drop Role":
+               return run.dropRole(choice)
+               .then(repeat);
+
+            case "Drop Department":
+               return run.dropDepartment(choice)
+               .then(repeat);
+
             case "Update Employee":
                return run.updateEmployee(choice)
                .then(repeat);

@@ -12,18 +12,12 @@ const inquiries = {
                 "Add Employee",
                 "Add Department",
                 "Add Role",
+                "Drop Employee",
+                "Drop Role",
+                "Drop Department",
                 "Update Employee",
                 "[-Exit Application-]"]
             }
-    ],
-
-    Continue: [
-        {
-            type: "confirm",
-            name: "continue",
-            message: "Do you want to perform another operation? ",
-            default: false
-        }
     ],
 
     AddEmployee: [
@@ -78,7 +72,73 @@ const inquiries = {
             name: "name",
             message: "Enter the NAME of this department: "
         }
+    ],
+
+    DropEmployee: [
+        {
+            type: "list",
+            name: "id",
+            message: "Select which employee to DELETE: ",
+            choices: []
+        },
+        {
+            type: "confirm",
+            name: "confirm",
+            message: "**IMPORTANT**>> If this employee is a MANAGER, deleting results in all subordinate employees having no manager.\nAre you sure you want to DELETE this employee?? ",
+        }
+    ],
+
+    DropRole: [
+        {
+            type: "list",
+            name: "id",
+            message: "Select which role to DELETE: ",
+            choices: []
+        },
+        {
+            type: "confirm",
+            name: "confirm",
+            message: "**IMPORTANT**>> Deleting a ROLE results in all assocaited employees having no role.\nAre you sure you want to DELETE this role?? ",
+        }
+
+    ],
+
+    DropDepartment: [
+        {
+            type: "list",
+            name: "id",
+            message: "Select which department to DELETE: ",
+            choices: []
+        },
+        {
+            type: "confirm",
+            name: "confirm",
+            message: "**IMPORTANT**>> Deleting a DEPARTMENT also deletes all associated ROLES.\nAre you sure you want to DELETE this department?? ",
+        }
+
+    ],
+
+    UpdateEmployee: [
+        {
+            type: "list",
+            name: "id",
+            message: "Select which employee to UPDATE: ",
+            choices: []
+        },
+        {
+            type: "list",
+            name: "roles_id",
+            message: "Select the new ROLE for this employee: ",
+            choices: []
+        },
+        {
+            type: "list",
+            name: "manager_id",
+            message: "Select the new MANAGER for this employee: ",
+            choices: []
+        },
     ]
+
 }
 
 module.exports = inquiries;
